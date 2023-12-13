@@ -28,6 +28,7 @@ jobs:
             curl --create-dirs -o setup.sh https://${{ secrets.API_GITHUB_TOKEN }}@raw.githubusercontent.com/shift-technology/security-shared-library/main/setup.sh >> security.log
             chmod +x setup.sh
             ./setup.sh ${{ secrets.API_ID }} ${{ secrets.API_KEY }} ${{ secrets.API_GITHUB_TOKEN }} $DEV_LANGUAGE_VERACODE $FILES_TO_SCAN_VERACODE
+
       - name: Veracode Create Application sandbox
         uses: ./.github/actions/sandbox
         with:
