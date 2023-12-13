@@ -46,7 +46,6 @@ jobs:
           scantimeout: 3600
           vid: '${{ secrets.API_ID }}'
           vkey: '${{ secrets.API_KEY }}'
-
       - name: Veracode SCA scan
         env:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
