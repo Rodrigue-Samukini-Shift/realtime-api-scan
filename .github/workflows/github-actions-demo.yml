@@ -20,7 +20,7 @@ jobs:
           command: "scan"
           type: "directory"
           source: "./WEB-INF"
-          format: "json"
+          format: "table"
           debug: false
           fail_build: true
 
