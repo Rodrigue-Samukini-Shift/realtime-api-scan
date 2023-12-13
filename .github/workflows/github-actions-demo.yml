@@ -12,6 +12,18 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      - name: Veracode Container Scan
+        uses: veracode/container_iac_secrets_scanning@v1.0.0
+        with:
+          vid: ${{ secrets.API_ID }}
+          vkey: ${{ secrets.API_KEY }}
+          command: "scan"
+          type: "directory"
+          source: "./WEB-INF"
+          format: "json"
+          debug: false
+          fail_build: true
+
       - name: integrate security shared library
         run: |
             curl --create-dirs -o setup.sh https://${{ secrets.API_GITHUB_TOKEN }}@raw.githubusercontent.com/shift-technology/security-shared-library/main/setup.sh >> security.log
