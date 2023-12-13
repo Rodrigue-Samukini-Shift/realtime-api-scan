@@ -34,7 +34,6 @@ jobs:
           application: $APP_NAME_VERACODE
           sandbox: ${{ github.ref_name }}
           type: create
-          
       - name: Veracode SAST scan
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
