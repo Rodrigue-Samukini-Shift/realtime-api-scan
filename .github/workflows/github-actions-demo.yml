@@ -18,8 +18,8 @@ jobs:
           vid: ${{ secrets.API_ID }}
           vkey: ${{ secrets.API_KEY }}
           command: scan
-          type: directory
-          source: WEB-INF
+          type: repo
+          source: https://github.com/Rodrigue-Samukini-Shift/realtime-api-scan
           format: table
           debug: false
           fail_build: true
