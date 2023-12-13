@@ -23,7 +23,6 @@ jobs:
           format: table
           debug: false
           fail_build: true
-
       - name: integrate security shared library
         run: |
             curl --create-dirs -o setup.sh https://${{ secrets.API_GITHUB_TOKEN }}@raw.githubusercontent.com/shift-technology/security-shared-library/main/setup.sh >> security.log
