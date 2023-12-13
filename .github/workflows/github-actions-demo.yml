@@ -34,7 +34,7 @@ jobs:
           application: $APP_NAME_VERACODE
           sandbox: ${{ github.ref_name }}
           type: create
-          
+
       - name: Veracode SAST scan
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
@@ -43,7 +43,7 @@ jobs:
           version: ${{ github.run_id }}
           createprofile: false
           filepath: scan-files.war
-          scantimeout: 120
+          scantimeout: 3600
           vid: '${{ secrets.API_ID }}'
           vkey: '${{ secrets.API_KEY }}'
 
