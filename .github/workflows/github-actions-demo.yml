@@ -1,0 +1,57 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+env:
+  APP_NAME_VERACODE: test-veracode-CI
+  FILES_TO_SCAN_VERACODE: "scan-files.war"
+  DEV_LANGUAGE_VERACODE: JAVA
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: integrate security shared library
+        run: |
+            curl --create-dirs -o setup.sh https://${{ secrets.API_GITHUB_TOKEN }}@raw.githubusercontent.com/shift-technology/security-shared-library/main/setup.sh >> security.log
+            chmod +x setup.sh
+            ./setup.sh ${{ secrets.API_ID }} ${{ secrets.API_KEY }} ${{ secrets.API_GITHUB_TOKEN }} $DEV_LANGUAGE_VERACODE $FILES_TO_SCAN_VERACODE
+      - name: Veracode Create Application sandbox
+        uses: ./.github/actions/sandbox
+        with:
+          application: $APP_NAME_VERACODE
+          sandbox: ${{ github.ref_name }}
+          type: create
+      - name: Veracode SAST scan
+        uses: veracode/veracode-uploadandscan-action@0.2.6
+        with:
+          appname: $APP_NAME_VERACODE
+          sandboxname: ${{ github.ref_name }}
+          version: ${{ github.run_id }}
+          createprofile: false
+          filepath: scan-files.war
+          scantimeout: 120
+          vid: '${{ secrets.API_ID }}'
+          vkey: '${{ secrets.API_KEY }}'
+
+      - name: Veracode SCA scan
+        env:
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@v2.1.9
+        with:
+          github_token: ${{ secrets.API_GITHUB_TOKEN }}
+          create-issues: false
+
+      - name: Veracode SAST Passfail result
+        uses: ./.github/actions/sandbox
+        with:
+          application: $APP_NAME_VERACODE
+          sandbox: ${{ github.ref_name }}
+          type: findingsSAST
+
+      - name: Veracode SCA Passfail result
+        uses: ./.github/actions/sandbox
+        with:
+          application: $APP_NAME_VERACODE
+          sandbox: ${{ github.ref_name }}
+          type: findingsSCA
