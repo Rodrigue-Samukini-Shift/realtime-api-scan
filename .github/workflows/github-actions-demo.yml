@@ -17,10 +17,10 @@ jobs:
         with:
           vid: ${{ secrets.API_ID }}
           vkey: ${{ secrets.API_KEY }}
-          command: "scan"
-          type: "directory"
-          source: "./WEB-INF"
-          format: "table"
+          command: scan
+          type: directory
+          source: WEB-INF
+          format: table
           debug: false
           fail_build: true
 
